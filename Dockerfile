@@ -9,6 +9,9 @@ RUN a2dismod mpm_event || true \
     && a2dismod mpm_worker || true \
     && a2enmod mpm_prefork
 
+RUN echo "LoadModule mpm_prefork_module /usr/lib/apache2/modules/mod_mpm_prefork.so" \
+    > /etc/apache2/mods-enabled/mpm_prefork.load
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
