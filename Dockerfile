@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
 RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
     && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
 
+RUN echo "" > /etc/apache2/conf-enabled/mpm.conf || true
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
