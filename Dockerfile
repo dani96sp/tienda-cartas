@@ -5,12 +5,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql
 
-RUN a2dismod mpm_event || true \
-    && a2dismod mpm_worker || true \
-    && a2enmod mpm_prefork
-
-RUN echo "LoadModule mpm_prefork_module /usr/lib/apache2/modules/mod_mpm_prefork.so" \
-    > /etc/apache2/mods-enabled/mpm_prefork.load
+# Fuerza Apache a usar solo mpm_prefork en tiempo de ejecución
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
+    && ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/mpm_prefork.load
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
